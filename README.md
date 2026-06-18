@@ -159,3 +159,6 @@ Neon Snake Arena is a full-stack Django web application developed to demonstrate
 ---
 
 Built with ❤️ using Django, Python, JavaScript, HTML5, CSS3, and SQLite.
+=======
+# Neon-Snake-Arena
+A modern Django-powered Snake game where players compete for high scores, climb the leaderboard, and track game statistics in a neon arcade-inspired arena.

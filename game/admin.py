@@ -67,16 +67,52 @@ class GameStatisticsAdmin(admin.ModelAdmin):
         return False
 
     def changelist_view(self, request, extra_context=None):
+
         stats = Score.objects.aggregate(
             total_games=Count("id"),
             top_score=Max("value"),
             average_score=Avg("value"),
         )
+
+        best_player = (
+            Player.objects
+            .annotate(best_score_value=Max("scores__value"))
+            .order_by("-best_score_value")
+            .first()
+        )
+
+        most_active_player = (
+            Player.objects
+            .annotate(total_games=Count("scores"))
+            .order_by("-total_games")
+            .first()
+        )
+
+        top_players = (
+            Player.objects
+            .annotate(best_score_value=Max("scores__value"))
+            .order_by("-best_score_value")[:5]
+        )
+
         extra_context = extra_context or {}
+
         extra_context["stats"] = {
             "total_players": Player.objects.count(),
             "total_games": stats["total_games"] or 0,
             "top_score": stats["top_score"] or 0,
-            "average_score": round(stats["average_score"], 1) if stats["average_score"] else 0,
+            "average_score": round(stats["average_score"], 1)
+            if stats["average_score"] else 0,
+
+            "best_player":
+                best_player.name if best_player else "N/A",
+
+            "most_active_player":
+                most_active_player.name if most_active_player else "N/A",
         }
-        return super().changelist_view(request, extra_context=extra_context)
+
+        extra_context["top_players"] = top_players
+
+        return super().changelist_view(
+            request,
+            extra_context=extra_context
+        )
