@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard — Neon Snake</title>
+  <link rel="stylesheet" href="{% static 'css/neon.css' %}">
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel board-panel">
+      <h1 class="title">🏆 Top Players</h1>
+      <p class="subtitle">Best score per player, ranked</p>
+
+      {% if players %}
+        <table class="board">
+          <thead>
+            <tr>
+              <th class="rank-cell">#</th>
+              <th>Player</th>
+              <th>Best Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in players %}
+              <tr class="{% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
+                <td class="rank-cell">{{ forloop.counter }}</td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.top_score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty-state">No scores yet — be the first to play!</div>
+      {% endif %}
+
+      <div class="nav-links">
+        <a href="{% url 'home' %}" class="btn">Play Now</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

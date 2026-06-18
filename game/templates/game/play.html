@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playing — Neon Snake</title>
+  <link rel="stylesheet" href="{% static 'css/neon.css' %}">
+  <style>
+    /* Page-specific layout: the game-over panel reuses .panel styling
+       but is hidden until the game actually ends. */
+    .game-over-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 13, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .game-over-overlay.visible { display: flex; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="game-shell">
+      <div class="player-tag">Player: {{ player_name }}</div>
+      <div class="hud-row">
+        <span>SCORE: <span class="value" id="hudScore">0</span></span>
+        <span>HIGH (this session): <span class="value" id="hudHigh">0</span></span>
+        <span id="hudPauseHint">P = Pause</span>
+      </div>
+      <canvas id="gameCanvas" width="560" height="440"></canvas>
+      <p class="controls-hint">Arrow Keys to move &nbsp;•&nbsp; P to pause &nbsp;•&nbsp; Enter to restart after game over</p>
+    </div>
+  </div>
+
+  <div class="game-over-overlay" id="gameOverOverlay">
+    <div class="panel">
+      <h1 class="title" style="color: var(--danger); text-shadow: 0 0 8px rgba(255,92,92,0.5);">Game Over</h1>
+      <p class="subtitle">Score</p>
+      <div class="score-display" id="finalScore">0</div>
+      <div class="save-status pending" id="saveStatus">Saving...</div>
+      <button class="btn" id="playAgainBtn">Play Again</button>
+      <div class="nav-links">
+        <a href="{% url 'leaderboard' %}" class="btn btn-magenta">View Leaderboard</a>
+        <a href="{% url 'home' %}" class="btn">Switch Player</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.SNAKE_CONFIG = {
+      saveScoreUrl: "{% url 'save_score' %}",
+      csrfToken: "{{ csrf_token }}",
+    };
+  </script>
+  <script src="{% static 'js/snake_game.js' %}"></script>
+</body>
+</html>

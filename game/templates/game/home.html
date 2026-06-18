@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Neon Snake</title>
+  <link rel="stylesheet" href="{% static 'css/neon.css' %}">
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1 class="title">🐍 Neon Snake</h1>
+      <p class="subtitle">Enter your name to start playing</p>
+
+      {% if error %}
+        <div class="error-msg">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="{% url 'start_game' %}">
+        {% csrf_token %}
+        <label class="field-label" for="name">Enter Name</label>
+        <input type="text" id="name" name="name" placeholder="Sahil" maxlength="40" autocomplete="off" autofocus required>
+        <button type="submit" class="btn">Start Game</button>
+      </form>
+
+      <div class="nav-links">
+        <a href="{% url 'leaderboard' %}" class="btn btn-magenta">View Leaderboard</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+  <h1>Game Statistics</h1>
+{% endblock %}
+
+{% block result_list %}
+  <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px;">
+    <div style="background:#1e1e2e; color:#7CFFCB; padding:16px 24px; border-radius:8px; border:1px solid #333; min-width:160px;">
+      <div style="font-size:12px; color:#9aa; text-transform:uppercase; letter-spacing:.05em;">Total Players</div>
+      <div style="font-size:28px; font-weight:bold;">{{ stats.total_players }}</div>
+    </div>
+    <div style="background:#1e1e2e; color:#7CFFCB; padding:16px 24px; border-radius:8px; border:1px solid #333; min-width:160px;">
+      <div style="font-size:12px; color:#9aa; text-transform:uppercase; letter-spacing:.05em;">Total Games Played</div>
+      <div style="font-size:28px; font-weight:bold;">{{ stats.total_games }}</div>
+    </div>
+    <div style="background:#1e1e2e; color:#FF3CB4; padding:16px 24px; border-radius:8px; border:1px solid #333; min-width:160px;">
+      <div style="font-size:12px; color:#9aa; text-transform:uppercase; letter-spacing:.05em;">Top Score Ever</div>
+      <div style="font-size:28px; font-weight:bold;">{{ stats.top_score }}</div>
+    </div>
+    <div style="background:#1e1e2e; color:#7CFFCB; padding:16px 24px; border-radius:8px; border:1px solid #333; min-width:160px;">
+      <div style="font-size:12px; color:#9aa; text-transform:uppercase; letter-spacing:.05em;">Average Score</div>
+      <div style="font-size:28px; font-weight:bold;">{{ stats.average_score }}</div>
+    </div>
+  </div>
+  <h2 style="margin-top:0;">All Games (most recent statistics rows)</h2>
+  {{ block.super }}
+{% endblock %}
